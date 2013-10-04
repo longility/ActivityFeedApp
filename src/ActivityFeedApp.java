@@ -1,33 +1,32 @@
 import java.text.DateFormat;
 import java.util.Date;
 
-import linkedIn.FeedItem;
 import linkedIn.LinkedInService;
 import models.MyActivityFeed;
+import models.adapter.FeedItemAdapter;
+import models.adapter.services.FacebookServiceAdapter;
+import models.adapter.services.LinkedInServiceAdapter;
+import models.adapter.services.SomeBlogServiceAdapter;
+import someBlog.SomeBlogService;
 import facebook.FacebookService;
-import facebook.WallPost;
 
 
 public class ActivityFeedApp {
 
 	private static DateFormat dateFormat = DateFormat.getInstance();
 	public static void main(String[] args) {
-		MyActivityFeed feed = new MyActivityFeed(new FacebookService(), new LinkedInService());
+		MyActivityFeed feed = new MyActivityFeed();
+		feed.AddService(new FacebookServiceAdapter(new FacebookService()));
+		feed.AddService(new LinkedInServiceAdapter(new LinkedInService()));
+		feed.AddService(new SomeBlogServiceAdapter(new SomeBlogService()));
 		
-		printFacebookPosts(feed);
-		printLinkedInFeed(feed);
+		printFeed(feed);
 	}
 
-	private static void printLinkedInFeed(MyActivityFeed feed) {
-		for (WallPost post : feed.getFacebookPosts()) {
-			printFeedItem(post.getUser(), post.getStory(), post.getPostDate());
+	private static void printFeed(MyActivityFeed feed) {
+		for (FeedItemAdapter feedItem : feed.getFeedItems()) {
+			printFeedItem(feedItem.getUser(), feedItem.getMessage(), feedItem.getPostDate());
 		}
-	}
-
-	private static void printFacebookPosts(MyActivityFeed feed) {
-		for (FeedItem item : feed.getLinkedInFeed()) {
-			printFeedItem(item.getUser(), item.getMessage(), item.getPostDate());
-		}	
 	}
 
 	public static void printFeedItem(String user, String message, Date date) {

@@ -14,7 +14,7 @@ public class SomeBlogService {
 	
 	private void generateBlogPosts() {
 		for(int i=0; i<10; i++) {
-			BlogPost blogPost = new BlogPost("12/1/2013", "Blog short message #" + i, "Author #" + i);
+			BlogPost blogPost = new BlogPost("Thu Sep 28 20:29:30 JST 2000", "Blog short message #" + i, "Author #" + i);
 			blogPosts.add(blogPost);
 		}
 	}

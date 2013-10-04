@@ -2,27 +2,23 @@ package models;
 
 import java.util.ArrayList;
 
-import linkedIn.FeedItem;
-import linkedIn.LinkedInService;
-import facebook.FacebookService;
-import facebook.WallPost;
+import models.adapter.FeedItemAdapter;
+import models.adapter.ServiceAdapter;
 
 public class MyActivityFeed {
-	private final FacebookService facebookService;
-	private final LinkedInService linkedInService;
+	private final ArrayList<ServiceAdapter> services = new ArrayList<ServiceAdapter>();
 	
-	public MyActivityFeed(FacebookService facebookService,
-			LinkedInService linkedInService) {
-		super();
-		this.facebookService = facebookService;
-		this.linkedInService = linkedInService;
+	public void AddService(ServiceAdapter service) {
+		services.add(service);
 	}
 
-	public ArrayList<WallPost> getFacebookPosts() {
-		return facebookService.getWallPosts();
-	}
-	
-	public ArrayList<FeedItem> getLinkedInFeed() {
-		return linkedInService.getFeedItems();
+	public ArrayList<FeedItemAdapter> getFeedItems() {
+		ArrayList<FeedItemAdapter> feedItems = new ArrayList<FeedItemAdapter>();
+		
+		for (ServiceAdapter service : services) {
+			feedItems.addAll(service.getFeedItems());
+		}
+		
+		return feedItems;
 	}
 }
